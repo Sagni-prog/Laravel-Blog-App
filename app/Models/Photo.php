@@ -10,16 +10,14 @@ class Photo extends Model
     use HasFactory;
 
     protected $fillable = [
-                    'user_id',
-                    'photo_name',
-                    'photo_path',
-                    'photo_url',
-                    'photo_extension',
-                    'photo_width',
-                    'photo_height'
+                'photo_name',
+                'photo_path',
+                'photo_url',
+                'photo_height',
+                'photo_width'
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function photoable(){
+        return $this->morphTo();
     }
 }

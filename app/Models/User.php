@@ -42,20 +42,5 @@ class User extends Authenticatable
     //     'profile_photo_url',
     // ];
  
-    public function articles(){
-        return $this->hasMany(Article::class);
-    }
-
-    public function comments(){
-        return $this->hasMany(Comment::class);
-    }
-
-    public function likes(){
-        return $this->hasOne(Like::class,'likeable');
-    }
-
-    public function photos(){
-         return $this->hasMany(Photo::class);
-    }
 
 }

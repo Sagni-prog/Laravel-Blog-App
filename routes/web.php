@@ -1,33 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\CatagoryController;
-use App\Http\Controllers\RouteController;
+use App\Http\Controllers\RouterController;
+use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\LikeController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\admin\CatagoryController;
+use App\Http\Controllers\admin\PostController;
+use App\Http\Controllers\admin\SettingController;
 
 
-Route::post('reset_password',[AdminController::class,'resetPassword'])->name('reset_password');
-Route::get('router',[RouteController::class,'route']);
-
-Route::get('single_article/{article}',[RouteController::class,'showSingleBlog']);
-
-Route::get('/add_photo',function(){
-  return view('add_photo');
-});
-
-Route::post('/add_photo',[PhotoController::class,'store'])->name('add_photo');
-
-
-Route::get('Admin/register',[RouteController::class,'register_admin']);
- Route::get('/',[ArticleController::class,'index']);
-Route::get('/articles/catagory/{catagory_name}',[CatagoryController::class,'index']);
-Route::get('/articles/all_catagory',[CatagoryController::class,'allCatagory']);
-Route::get('/article/add',[RouteController::class,'showAddArticle']);
-Route::post('/article/add',[ArticleController::class,'store'])->name('article/add');
+Route::get('/',[HomeController::class,'getHome']);
+Route::get('/router',[RouterController::class,'route']);
+Route::get('post_single/{post}',[HomeController::class,'singlePost']);
 
 
 
@@ -36,13 +20,46 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
+    
+    Route::get('/dashboard',[AdminController::class,'getDashboard']);
 
-    Route::get('/article_like/{article}',[LikeController::class,'like']);
-    
-    Route::post('article/comment/{article}',[CommentController::class,'comment'])->name('article/comment');
-    
-    Route::get('/reset_passwod',[RouteController::class,'showPasswordReset']);
-    Route::get('/dashboard',[RouteController::class,'showDashboard'])->name('dashboard');
+    // catagories
+    Route::get('/catagories',[CatagoryController::class,'showCatagory'])->name('show_catagories');
+    Route::get('add_catagory',[CatagoryController::class,'showAddcatagory'])->name('add_catagory');
+
+    Route::get('add_sub_catagory',[CatagoryController::class,'showAddSubcatagory'])->name('add_sub_catagory');
+
+    Route::get('sub_catagories',[CatagoryController::class,'showSubcatagory'])->name('sub_catagories');
+
+    Route::post('sub_catagory',[CatagoryController::class,'createSubCatagory'])->name('sub_catagory_add');
+
+    Route::post('catagory',[CatagoryController::class,'create'])->name('catagory_add');
+
+    Route::get('/catagory/{catagory}',[CatagoryController::class,'showEditCatagory'])->name('edit_catagory');
+
+    Route::post('/catagory_edit/{catagory}',[CatagoryController::class,'edit'])->name('catagory_edit');
+
+    Route::post('/catagory_delete/{catagory}',[CatagoryController::class,'destroy'])->name('catagory_delete');
+
+    // Route::get('/catagory_edit',[CatagoryController::class,'showEditCatagory'])->name('edit_catagory');
+
+    // Posts
+
+    Route::get('posts',[PostController::class,'showPost']);
+    Route::get('post_add',[PostController::class,'showAddPost']);
+    Route::post('post',[PostController::class,'create'])->name('add_post');
+
+    Route::get('/post/{post}',[PostController::class,'showEditPost'])->name('edit_post');
+    Route::post('/post_edit/{post}',[PostController::class,'edit'])->name('post_edit');
+
+    Route::post('/post_delete/{post}',[PostController::class,'destroy'])->name('post_delete');
+
+    Route::get('settings',[SettingController::class,'index']);
+    Route::post('settings',[SettingController::class,'create'])->name('setting_update');
+
+
+  
+   
 });
 
 

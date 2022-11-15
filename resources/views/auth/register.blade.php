@@ -1,70 +1,113 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            {{-- <x-jet-authentication-card-logo /> --}}
-        </x-slot>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 
-        <x-jet-validation-errors class="mb-4" />
+    <link rel="icon" type="image/png" href="asset{{'../../panel/uploads/favicon.png'}}">
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+    <title>Admin Panel</title>
 
-            <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 
-            <div class="mt-4">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
+    <link rel="stylesheet" href="asset{{ '../../panel/dist/css/bootstrap.min.css' }}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/font_awesome_5_free.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/select2.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/bootstrap-datepicker.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/bootstrap-timepicker.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/bootstrap-tagsinput.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/duotone-dark.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/dataTables.bootstrap4.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/iziToast.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/fontawesome-iconpicker.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/bootstrap4-toggle.min.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/summernote-bs4.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/style.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/components.css'}}">
+    <link rel="stylesheet" href="asset{{'../../panel/dist/css/spacing.css'}}">
+    <link rel="stylesheet" href="{{'../../panel/dist/css/custom.css'}}">
 
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
+    <script src="asset{{'../../panel/dist/js/jquery-3.6.0.min.js'}}"></script>
+    <script src="asset{{'../../panel/dist/js/popper.min.js'}}"></script>
+    <script src="asset{{'../../panel/dist/js/tooltip.js'}}"></script>
+    <script src="asset{{'../../dist/js/bootstrap.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/jquery.nicescroll.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/moment.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/stisla.js'}}"></script>
+    <script src="asset{{'../../dist/js/jscolor.js'}}"></script>
+    <script src="asset{{'../../dist/js/bootstrap-datepicker.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/bootstrap-timepicker.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/bootstrap-tagsinput.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/select2.full.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/summernote-bs4.js'}}"></script>
+    <script src="asset{{'../../dist/js/jquery.dataTables.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/dataTables.bootstrap4.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/iziToast.min.js'}}"></script>
+    <script src="asset{{'../../dist/js/fontawesome-iconpicker.js'}}"></script>
+    <script src="asset{{'../../dist/js/bootstrap4-toggle.min.js'}}"></script>
+</head>
 
-            <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <section class="section">
+            <div class="container container-login">
+                <div class="row">
+                    <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                        <div class="card card-primary border-box">
+                            <div class="card-header card-header-auth">
+                                <h4 class="text-center">Admin Panel Login</h4>
+                            </div>
+                            <div class="card-body card-body-auth">
 
-            <div class="mt-4">
-                <x-jet-label for="user_type" value="{{ __('User Type') }}" />
-                <input id="password_confirmation" class="block mt-1 w-full" type="number" name="user_type" />
-            </div>
+                                @if (session('status'))
+                                       <div class="mb-4 font-medium text-sm text-green-600">
+                                            {{ session('status') }}
+                                    </div>
+                                @endif
 
-            <div class="mt-4">
-                <x-jet-label for="Profile" value="{{ __('User Type') }}" />
-                <input id="password_confirmation" class="block mt-1 w-full" type="file" name="photo" />
-            </div>
+                                <form method="POST" action="{{ route('register') }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name = "name" placeholder="Name" value="" autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="email" placeholder="Email Address" value="" autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="password"  placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="password_confirmation"  placeholder="Confirm Password">
+                                    </div>
+                                    {{-- <div class="form-group">
+                                        <input type="number" class="form-control" name="user_type"  placeholder="Password">
+                                    </div> --}}
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                            Register
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <div>
+                                            <a href="forget-password.html">
+                                                Forget Password?
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
 
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-jet-label for="terms">
-                        <div class="flex items-center">
-                            <x-jet-checkbox name="terms" id="terms"/>
-
-                            <div class="ml-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
-                                ]) !!}
                             </div>
                         </div>
-                    </x-jet-label>
+                    </div>
                 </div>
-            @endif
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-jet-button class="ml-4">
-                    {{ __('Register') }}
-                </x-jet-button>
             </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+        </section>
+    </div>
+</div>
+
+<script src="asset{{'../../panel/dist/js/scripts.js'}}"></script>
+<script src="asset{{'../../panel/dist/js/custom.js'}}"></script>
+
+</body>
+</html>
