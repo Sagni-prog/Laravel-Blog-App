@@ -62,44 +62,41 @@
         <div class="search-section">
             <div class="container">
                 <div class="inner">
-                    <div class="row">
-                        
+                    <form method = "post" action = "{{ route('search') }}">
+                    @csrf
+
+                    <div class="row" style = "display: flex;
+                    align-items: center;
+                    ">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" name="" class="form-control" placeholder="Title or Description">
+                                <input type="text" name="text" class="form-control" placeholder="Title or Description">
                             </div>
                         </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
-                                <select name="" class="form-select">
-                                    <option value="">Select Category</option>
-                                    <option value="">Sports</option>
-                                    <option value="">National</option>
-                                    <option value="">Lifestyle</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <select name="" class="form-select">
+                                <select name="sub_catagory" id="sub_catagory" class="form-select">
                                     <option value="">Select SubCategory</option>
-                                    <option value="">Football</option>
-                                    <option value="">Cricket</option>
-                                    <option value="">Baseball</option>
+                                     @foreach ($sub_catagory_data as $sub_catagories)
+                                      <option value="{{ $sub_catagories->id }}">{{ $sub_catagories->sub_catagory_name }}</option>
+                                    @endforeach
+                                   
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
-                    </div>
+                      </div>
+                    </form>
                 </div>
             </div>
         </div>
         
         <div class="home-content">
             <div class="container">
-                <div class="row">
+                <div class="row" style = "align-items: center">
 
                    @include('home.layouts.post')
 
@@ -118,7 +115,25 @@
 
         @include('home.layouts.copyright')
 		
-        <script src="asset{{'../../home/js/custom.js'}}"></script>        
+        <script src="asset{{'../../home/js/custom.js'}}"></script> 
+        <script>
+            (function($){
+                $(document).ready(function(){
+                   $("#catagory").on('change',function(){
+                       var catagoryId = $("#catagory").val();
+                       if(catagoryId){
+                           $.ajax({
+                               type: "get",
+                               url: "{{ url('sub-catagory-by-catagory/')}}" + "/" + catagoryId,
+                               success: function(response){
+                                   console.log('hello')
+                               }
+                           });
+                       }
+                   }) 
+                })
+            })(jQuery)
+        </script>       
 		
    </body>
 </html>

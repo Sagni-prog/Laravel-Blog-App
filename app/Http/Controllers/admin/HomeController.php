@@ -22,11 +22,13 @@ class HomeController extends Controller
                                $query->where('show_on_menu','show');
                     })->get();
          $sub_catagory = Subcatagory::with('post','catagory')->get();
-         $catagory_data = Catagory::with('subCatagory')->orderBy('catagory_order','asc')->get();
+         $sub_catagory_data = Subcatagory::orderBy('sub_catagory_order','asc')->get();
+
+        
       
        
    
-          return view('home.home',compact('setting','posts','catagories','sub_catagory','catagory_data'));
+          return view('home.home',compact('setting','posts','catagories','sub_catagory','sub_catagory_data'));
   }
 
   public function singlePost(Post $post){
@@ -53,4 +55,37 @@ class HomeController extends Controller
       
          return view('home.single_post',compact('post','catagories','sub_catagory','setting','related_posts_catagory'));
   }
-}
+
+        public function getSubCatagory($catagoryId){
+            return $catagoryId;
+       } 
+
+       public function searchNews(Request $request){
+           $post_data = Post::orderBy('id','desc');
+
+           
+
+           if($request->text != ''){
+               $post_data = $post_data->where('post_title','like','%'.$request->text.'%');
+           }
+
+           if($request->sub_catagory != ''){
+            $post_data = $post_data->where('sub_catagory_id',$request->sub_catagory);
+           }
+
+           $post_data = $post_data->with('subCatagory','photo')->get();
+
+           $setting = Setting::all()->first();
+        
+
+           $catagories = Catagory::with('subCatagories')
+                            ->where('show_on_menu','show')
+                            ->whereHas('subCatagories',function($query){
+                               $query->where('show_on_menu','show');
+                    })->get();
+           $sub_catagory = Subcatagory::with('post','catagory')->get();
+
+           
+             return view('home.post_by_catagory',compact('post_data','catagories','sub_catagory','setting'));
+         }
+     }

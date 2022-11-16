@@ -109,9 +109,7 @@
                             </div>
                             <div class="item">
                                 <b><i class="fas fa-clock"></i></b>
-                               {{
-                                   s
-                               }}
+                              
                             </div>
                             <div class="item">
                                 <b><i class="fas fa-eye"></i></b>

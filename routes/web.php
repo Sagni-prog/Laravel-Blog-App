@@ -13,6 +13,10 @@ Route::get('/',[HomeController::class,'getHome']);
 Route::get('/router',[RouterController::class,'route']);
 Route::get('post_single/{post}',[HomeController::class,'singlePost']);
 
+Route::get('sub-catagory-by-catagory/{catagoryId}',[HomeController::class,'getSubCatagory']);
+
+Route::post('/search',[HomeController::class,'searchNews'])->name('search');
+
 
 
 Route::middleware([
